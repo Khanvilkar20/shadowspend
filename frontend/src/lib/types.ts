@@ -10,3 +10,13 @@ export interface Subscription {
   nextBillingDate: string | null;
   isActive: boolean;
 }
+
+export interface SubscriptionEmail {
+  id: string;
+  subject: string;
+  sender: string;
+  snippet: string;
+  rawBody: string;
+  receivedAt: string;
+  amount: number;
+}

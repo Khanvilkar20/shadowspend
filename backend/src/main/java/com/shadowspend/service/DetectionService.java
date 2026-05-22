@@ -155,14 +155,14 @@ public class DetectionService {
     private String inferCategory(String merchant) {
         String text = merchant == null ? "" : merchant.toLowerCase();
         if (text.contains("bank") || text.contains("pay") || text.contains("wallet")) {
-            return "financial";
+            return "Financial";
         }
         if (text.contains("electric") || text.contains("gas") || text.contains("water") || text.contains("bill")) {
-            return "bill";
+            return "Bill";
         }
         if (text.isBlank()) {
-            return "unknown";
+            return "Unknown";
         }
-        return "subscription";
+        return "Subscription";
     }
 }

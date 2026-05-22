@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { SubscriptionCard } from "@/components/SubscriptionCard";
+import { SubscriptionEmailModal } from "@/components/SubscriptionEmailModal";
 import { SummaryCards } from "@/components/SummaryCards";
 import { FilterTabs, type FilterKey } from "@/components/FilterTabs";
 import { EmptyState } from "@/components/EmptyState";
@@ -51,6 +52,9 @@ function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterKey>("ALL");
+  const [selectedSubscription, setSelectedSubscription] = useState<Subscription | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [expandedEmailId, setExpandedEmailId] = useState<string | null>(null);
 
   const [insights, setInsights] = useState<Insights | null>(null);
   const [insightsLoading, setInsightsLoading] = useState(true);
@@ -272,7 +276,15 @@ function DashboardPage() {
         {!loading && !error && subs && filtered.length > 0 && (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((s) => (
-              <SubscriptionCard key={s.id} sub={s} />
+              <SubscriptionCard
+                key={s.id}
+                sub={s}
+                onClick={() => {
+                  setSelectedSubscription(s);
+                  setExpandedEmailId(null);
+                  setIsModalOpen(true);
+                }}
+              />
             ))}
           </div>
         )}
@@ -284,6 +296,20 @@ function DashboardPage() {
         {!insightsLoading && !insightsError && insights && (
           <InsightsSection insights={insights} />
         )}
+
+        <SubscriptionEmailModal
+          subscription={selectedSubscription}
+          open={isModalOpen}
+          onOpenChange={(open) => {
+            setIsModalOpen(open);
+            if (!open) {
+              setSelectedSubscription(null);
+              setExpandedEmailId(null);
+            }
+          }}
+          expandedEmailId={expandedEmailId}
+          onExpandedEmailIdChange={setExpandedEmailId}
+        />
       </main>
     </div>
   );

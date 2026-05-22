@@ -1,3 +1,4 @@
+import type { KeyboardEvent } from "react";
 import type { Subscription } from "@/lib/types";
 
 function classificationStyle(classification: string): string {
@@ -27,12 +28,33 @@ function formatDate(date: string | null): string {
   }
 }
 
-export function SubscriptionCard({ sub }: { sub: Subscription }) {
+export function SubscriptionCard({
+  sub,
+  onClick,
+}: {
+  sub: Subscription;
+  onClick?: () => void;
+}) {
   const initial = (sub.merchantName?.[0] ?? "?").toUpperCase();
   const score = sub.confidenceScore ?? 0;
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (!onClick) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <div
-      className="rounded-xl p-5 shadow-md ring-1 ring-white/10 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      className={`rounded-xl p-5 shadow-md ring-1 ring-white/10 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg ${
+        onClick ? "cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/50" : ""
+      }`}
       style={{ backgroundColor: "#111827" }}
     >
       <div className="flex items-center gap-4">

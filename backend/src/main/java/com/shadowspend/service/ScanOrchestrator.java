@@ -239,16 +239,16 @@ public class ScanOrchestrator {
                 Subscription detected = detectionService.buildSubscription(merchant, merchantTransactions, emails);
 
                 // ✅ Skip financial and bill categories
-                if ("financial".equals(detected.getCategory()) ||
-                    "bill".equals(detected.getCategory())) {
+                if ("Financial".equals(detected.getCategory()) ||
+                    "Bill".equals(detected.getCategory())) {
                     log.info("Skipping financial/bill category for merchant: {}", merchant);
                     continue;
                 }
 
                 // ✅ Skip unknown low confidence subscriptions
-                if ("UNKNOWN".equals(detected.getClassification()) &&
+                if ("Unknown".equals(detected.getClassification()) &&
                     detected.getConfidenceScore().compareTo(new BigDecimal("0.4")) < 0) {
-                    log.info("Skipping low confidence UNKNOWN subscription: {}", merchant);
+                    log.info("Skipping low confidence Unknown subscription: {}", merchant);
                     continue;
                 }
 

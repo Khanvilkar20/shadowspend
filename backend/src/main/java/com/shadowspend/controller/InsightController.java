@@ -134,7 +134,7 @@ public class InsightController {
         // ✅ CATEGORY BREAKDOWN (SUM, NOT COUNT)
         Map<String, BigDecimal> categoryBreakdown = subscriptions.stream()
                 .collect(Collectors.groupingBy(
-                        s -> s.getCategory() == null ? "unknown" : s.getCategory(),
+                        s -> s.getCategory() == null ? "Unknown" : s.getCategory(),
                         Collectors.mapping(
                                 this::getMonthlyAmount,
                                 Collectors.reducing(BigDecimal.ZERO, BigDecimal::add)

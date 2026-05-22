@@ -1,8 +1,10 @@
 package com.shadowspend.controller;
 
 import com.shadowspend.dto.SubscriptionDTO;
+import com.shadowspend.dto.SubscriptionEmailDTO;
 import com.shadowspend.model.Subscription;
 import com.shadowspend.repository.SubscriptionRepository;
+import com.shadowspend.service.SubscriptionEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,6 +22,7 @@ import java.util.UUID;
 public class SubscriptionController {
 
     private final SubscriptionRepository subscriptionRepository;
+    private final SubscriptionEmailService subscriptionEmailService;
 
     @GetMapping("/{userId}")
     public List<SubscriptionDTO> list(@PathVariable UUID userId, @RequestParam(required = false) String category) {
@@ -27,6 +30,11 @@ public class SubscriptionController {
                 ? subscriptionRepository.findByUserIdAndIsActiveTrue(userId)
                 : subscriptionRepository.findByUserIdAndCategory(userId, category).stream().filter(s -> Boolean.TRUE.equals(s.getIsActive())).toList();
         return subscriptions.stream().map(this::toDTO).toList();
+    }
+
+    @GetMapping("/{id}/emails")
+    public List<SubscriptionEmailDTO> emails(@PathVariable UUID id) {
+        return subscriptionEmailService.getEmailsForSubscription(id);
     }
 
     @PatchMapping("/{id}/verify")

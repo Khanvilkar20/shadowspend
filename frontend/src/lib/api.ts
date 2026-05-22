@@ -1,10 +1,18 @@
-import type { Subscription } from "./types";
+import type { Subscription, SubscriptionEmail } from "./types";
 
 const API_URL = "http://localhost:8080";
 
 export async function getSubscriptions(userId: string): Promise<Subscription[]> {
   const response = await fetch(`${API_URL}/api/subscriptions/${userId}`);
   if (!response.ok) throw new Error("Failed to fetch subscriptions");
+  return response.json();
+}
+
+export async function getSubscriptionEmails(
+  subscriptionId: string,
+): Promise<SubscriptionEmail[]> {
+  const response = await fetch(`${API_URL}/api/subscriptions/${subscriptionId}/emails`);
+  if (!response.ok) throw new Error("Failed to fetch subscription emails");
   return response.json();
 }
 
