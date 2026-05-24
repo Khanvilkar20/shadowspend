@@ -1,10 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=4562707758-lah3hl8cagn8gllp1mn6br2gfvfj04u6.apps.googleusercontent.com&redirect_uri=http://localhost:8081/auth/callback&response_type=code&scope=${[
+// const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=4562707758-lah3hl8cagn8gllp1mn6br2gfvfj04u6.apps.googleusercontent.com&redirect_uri=http://localhost:8081/auth/callback&response_type=code&scope=${[
+//   "https://www.googleapis.com/auth/gmail.readonly",
+//   "https://www.googleapis.com/auth/userinfo.email",
+//   "https://www.googleapis.com/auth/userinfo.profile",
+// ].join(" ")}&access_type=offline&prompt=consent`;
+
+// CHANGES
+
+const CLIENT_ID = "4562707758-lah3hl8cagn8gllp1mn6br2gfvfj04u6.apps.googleusercontent.com";
+const REDIRECT_URI = `${window.location.origin}/auth/callback`;
+
+const SCOPES = [
   "https://www.googleapis.com/auth/gmail.readonly",
   "https://www.googleapis.com/auth/userinfo.email",
   "https://www.googleapis.com/auth/userinfo.profile",
-].join(" ")}&access_type=offline&prompt=consent`;
+].join(" ");
+
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=${encodeURIComponent(SCOPES)}&access_type=offline&prompt=consent`;
 
 export const Route = createFileRoute("/")({
   component: LoginPage,
