@@ -21,8 +21,11 @@ function AuthCallbackPage() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/auth/google", {
-        // const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google
+        // const res = await fetch("http://localhost:8080/api/auth/google", {
+        // const API_URL =(import.meta.env.VITE_API_URL || "http://localhost:8080").replace(/\/$/, "");
+        // const res = await fetch(`${API_URL}/api/auth/google`, {
+        const API_URL = import.meta.env.VITE_API_URL;
+        const res = await fetch(`${API_URL}/api/auth/google`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code }),
