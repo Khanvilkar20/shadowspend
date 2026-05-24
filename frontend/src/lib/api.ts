@@ -1,6 +1,7 @@
 import type { Subscription, SubscriptionEmail } from "./types";
 
-const API_URL = "http://localhost:8080";
+// const API_URL = "http://localhost:8080";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export async function getSubscriptions(userId: string): Promise<Subscription[]> {
   const response = await fetch(`${API_URL}/api/subscriptions/${userId}`);
